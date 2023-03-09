@@ -1,0 +1,136 @@
+const router = require('express').Router()
+const withAuth = require('../../utils/auth')
+
+const { User, Post, Comment } = require('../../models/')
+
+router.get('/', async (req, res) => {
+    try{
+        const getUser = await User.findAll({
+            attributes: { exclude: 'password'}
+        })
+        res.json(getUser)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.get('/:id', async (req, res) => {
+    try{
+        const getUserId = await User.findOne({
+            attributes: { exclude: 'password'},
+            where: {
+                id: req.params.id
+            },
+            include: [
+                {
+                    model: Post,
+                    attributes: ['id', 'post_name', 'post_data', 'created_at' ]
+                },
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment_data', 'created_at'],
+                    include: {
+                        model: Post,
+                        attributes: ['post_name']
+                    }
+                }
+            ]
+        })
+        if(!getUserId){
+            res.status(404).json({ message: 'No user associated with this ID.'})
+        }
+        res.json(getUserId)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.post('/', async (req, res) => {
+    try{
+        const postUser = await User.create({
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
+        })
+        req.session.save(() => {
+            req.session.user_id = postUser.id,
+            req.session.username = postUser.username,
+            req.session.loggedIn = true,
+            res.json(postUser)
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.post('/login', async (req, res) => {
+    try{
+        const postLogin = await User.findOne({
+            where: {
+                username: req.body.username
+            }
+        })
+        if (!postLogin) {
+            res.status(400).json({ message: 'Username was not found.'})
+            return
+        }
+        const checkPassword = postLogin.checkPassword(req.body.password)
+        if(!checkPassword){
+            res.status(400).json({ message: 'Password was incorrect.'})
+            return
+        }
+        req.session.save(() => {
+            req.session.user_id = postLogin.id,
+            req.session.username = postLogin.username,
+            req.session.loggedIn = true,
+            res.json(postLogin)
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.put('/:id', withAuth, async (req, res) => {
+    try{
+        const putUser = await User.update({
+            where: {
+                id: req.params.id
+            }
+        })
+        if (!putUser) {
+            res.status(404).json({ message: 'Username was not found.'})
+        }
+        res.json(putUser)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.delete('/:id', withAuth, async (req, res) => {
+    try{
+        const deleteUser = await User.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        if(!deleteUser){
+            res.status(404).json({ message: 'Username was not found.'})
+        }
+        res.json(deleteUser)
+    } catch (err) {
+        res.json(500).json(err)
+    }
+})
+
+router.post('/logout', withAuth, (req, res) => {
+    if (req.session.loggedIn) {
+        req.session.destroy(() => {
+            res.status(204).end()
+        })
+    } else {
+        res.status(400).end()
+    }
+})
+
+module.exports = router
+
