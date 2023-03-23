@@ -11,14 +11,14 @@ router.get('/', async (req, res) => {
             include: [
                 {
                     model: User,
-                    attributes: ['username']
+                    attributes: ['name']
                 },
                 {
                     model: Comment,
                     attributes: ['id', 'user_id', 'post_id', 'comment_data', 'created_at'],
                     include: {
                         model: User,
-                        attributes: ['username']
+                        attributes: ['name']
                     }
                 }
             ]
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/;id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try{
         const getPostId = await Post.findOne({
             where: {
@@ -40,14 +40,14 @@ router.get('/;id', async (req, res) => {
             include: [
                 {
                     model: User,
-                    attributes: ['username']
+                    attributes: ['name']
                 },
                 {
                     model: Comment,
                     attributes: ['id', 'user_id', 'post_id', 'comment_data', 'created_at'],
                     include: {
                         model: User,
-                        attributes: ['username']
+                        attributes: ['name']
                     }
                 }
             ]

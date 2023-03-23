@@ -1,7 +1,7 @@
 const router = require('express').Router()
+const { User, Post, Comment } = require('../../models')
 const withAuth = require('../../utils/auth')
-
-const { User, Post, Comment } = require('../../models/')
+const sequelize = require('../../config/connection')
 
 router.get('/', async (req, res) => {
     try{
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
             include: [
                 {
                     model: Post,
-                    attributes: ['id', 'post_name', 'post_data', 'created_at' ]
+                    attributes: ['id', 'post_name', 'post_data', 'created_at']
                 },
                 {
                     model: Comment,
@@ -38,6 +38,7 @@ router.get('/:id', async (req, res) => {
         })
         if(!getUserId){
             res.status(404).json({ message: 'No user associated with this ID.'})
+            return
         }
         res.json(getUserId)
     } catch (err) {
@@ -48,14 +49,14 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try{
         const postUser = await User.create({
-            username: req.body.username,
+            name: req.body.name,
             email: req.body.email,
             password: req.body.password
         })
         req.session.save(() => {
             req.session.user_id = postUser.id,
-            req.session.username = postUser.username,
-            req.session.loggedIn = true,
+            req.session.name = postUser.name,
+            req.session.logged_in = true
             res.json(postUser)
         })
     } catch (err) {
@@ -67,23 +68,23 @@ router.post('/login', async (req, res) => {
     try{
         const postLogin = await User.findOne({
             where: {
-                username: req.body.username
+                email: req.body.email
             }
         })
         if (!postLogin) {
-            res.status(400).json({ message: 'Username was not found.'})
+            res.status(404).json({ message: 'Email was not found.'})
             return
         }
-        const checkPassword = postLogin.checkPassword(req.body.password)
-        if(!checkPassword){
+        const passwordCheck = postLogin.checkPassword(req.body.password)
+        if(!passwordCheck){
             res.status(400).json({ message: 'Password was incorrect.'})
             return
         }
         req.session.save(() => {
             req.session.user_id = postLogin.id,
-            req.session.username = postLogin.username,
-            req.session.loggedIn = true,
-            res.json(postLogin)
+            req.session.logged_in = true
+
+            res.json({ user: postLogin, message: 'You are now logged in.'})
         })
     } catch (err) {
         res.status(500).json(err)
@@ -98,7 +99,8 @@ router.put('/:id', withAuth, async (req, res) => {
             }
         })
         if (!putUser) {
-            res.status(404).json({ message: 'Username was not found.'})
+            res.status(404).json({ message: 'Email was not found.'})
+            return
         }
         res.json(putUser)
     } catch (err) {
@@ -114,7 +116,8 @@ router.delete('/:id', withAuth, async (req, res) => {
             }
         })
         if(!deleteUser){
-            res.status(404).json({ message: 'Username was not found.'})
+            res.status(404).json({ message: 'Email was not found.'})
+            return
         }
         res.json(deleteUser)
     } catch (err) {
@@ -123,7 +126,7 @@ router.delete('/:id', withAuth, async (req, res) => {
 })
 
 router.post('/logout', withAuth, (req, res) => {
-    if (req.session.loggedIn) {
+    if (req.session.logged_in) {
         req.session.destroy(() => {
             res.status(204).end()
         })

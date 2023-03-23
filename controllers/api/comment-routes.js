@@ -1,12 +1,12 @@
 const router = require('express').Router()
 const withAuth = require('../../utils/auth')
-
-const { Comment } = require('../../models/comment')
+const sequelize = require(`../../config/connection`)
+const { Comment } = require('../../models')
 
 router.get('/', withAuth, async (req, res) => {
     try{
-        const commentData = await Comment.findAll()
-        res.json(commentData)
+        const getComment = await Comment.findAll()
+        res.json(getComment)
     } catch (err) {
         res.status(500).json(err)
     }
