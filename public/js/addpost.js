@@ -22,5 +22,5 @@ const addPost = async (event) => {
 }
 
 document
-    .querySelector('')
+    .querySelector('makeButton')
     .addEventListener('submit', addPost)

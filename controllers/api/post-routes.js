@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try{
-        const getPostId = await Post.findOne({
+        const getPost = await Post.findOne({
             where: {
                 id: req.params.id
             },
@@ -52,10 +52,10 @@ router.get('/:id', async (req, res) => {
                 }
             ]
         })
-        if(!getPostId){
+        if(!getPost){
             res.status(500).json({ message: 'No post associated with this ID.'})
         }
-        res.json(getPostId)
+        res.json(getPost)
     } catch (err) {
         res.status(500).json(err)
     }
@@ -94,7 +94,8 @@ router.delete('/:id', withAuth, async (req, res) => {
     try{
         const deletePost = await Post.destroy({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                user_id: req.session.user_id
             }
         })
         if(!deletePost){
