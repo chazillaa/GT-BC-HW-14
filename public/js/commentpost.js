@@ -16,11 +16,13 @@ const commentPost = async (event) => {
           }
         })
         if (response.ok) {
-          document.location.reload();
+          document.location.reload()
         } else {
-          alert(response.statusText);
+          alert(response.statusText)
         }
     }
 }
 
-document.querySelector('#addComment').addEventListener('click', commentPost);
+document.querySelector('#addComment').addEventListener('click', commentPost)
+
+// working with postman but not with views

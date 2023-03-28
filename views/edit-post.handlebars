@@ -1,19 +1,25 @@
- <div class="card">
-        <h5 class="card-header">Edit Your Post</h5>
+ <div class="nes-container is-rounded m-4">
+        <h2 class="nes-text is-primary">Edit Post</h2>
+        <div class="nes-container is-rounded m-4">
         <form class="card-body" id="editPost">
-          <div class="mb-3">
-            <label for="postTitle" class="form-label">Post Title:</label>
+
+          <div class="m-4">
+            <label for="postTitle" class="nes-text is-primary">Post Title:</label>
             <input type="text" class="form-control" id="postTitle" value="{{post.post_name}}">
           </div>
-          <div class="mb-3">
+
+          <div class="m-4">
             <textarea class="form-control" id="newPost" rows="3">{{post.post_data}}</textarea>
           </div>
 
-            <h6 class="card-footer">Created by: {{post.user_name}} @ {{format_date post.created_at}}</h6>
-          <button type="submit" class="btn btn-dark mb-3" id="editPost">Edit Post</button>
-          <button type="button" class="btn btn-dark mb-3" id="deletePost">Delete Post</button>
+            <h6 class="card-footer nes-text is-error">Posted by:</h6>
+            <h6>{{post.user_name}} on {{format_date post.created_at}}</h6>
+            </div>
+
+          <button type="submit" class="nes-btn is-primary" id="editPost">Edit Post</button>
+          <button type="button" class="nes-btn is-success" id="deletePost">Delete Post</button>
         </form>
       </div>
-
+</div>
 <script src="/js/deletepost.js"></script>
 <script src="/js/editpost.js"></script>
