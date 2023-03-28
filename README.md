@@ -12,10 +12,12 @@
   This application is a simple blog website that allows users to post and comment on others posts, saving data to a database, allowing for reoccuring visits to the site. 
   &nbsp;  
   ## Installation:
-  To run the the app the user must begin "npm init" and then install the following dependencies before running "npm start". Please install bcrypt, connect-session-sequelize, dotenv, express, express-handlebars, express-session, handlebars, mysql2, and sequelize.
+  To run the the app the user must begin "npm init", install the following dependencies before running "npm start". Please install bcrypt, connect-session-sequelize, dotenv, express, express-handlebars, express-session, handlebars, mysql2, and sequelize.
   &nbsp;  
   ## Usage:
   Once the dependencies are installed, and the applcation is running you can view posts that are on the blog, signup/login to write posts of your own, and comment on others posts.
+
+  Deployed Website: https://gt-bc-hw-14-tech-blog.herokuapp.com/
   &nbsp;  
   ## Contributing:
   Others can contribute to this project by furthering the functionality of the app, by suggesting new additions that could make the application better.
