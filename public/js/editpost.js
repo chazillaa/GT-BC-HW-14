@@ -1,12 +1,12 @@
 const editPost = async (event) => {
     event.preventDefault()
 
-    const post_name = document.querySelector().value.trim()
-    const post_data = document.querySelector().value.trim()
+    const post_name = document.querySelector('#postTitle').value.trim()
+    const post_data = document.querySelector('#newPost').value.trim()
 
-    const id = window.location.toString().split('/')[window.locationtoString().spit('/').length - 1]
+    const id = window.location.toString().split('/')[window.location.toString().split('/').length - 1]
 
-    const response = await fetch('/api/posts/${id}', {
+    const response = await fetch(`/api/posts/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
             post_id: id,
@@ -24,6 +24,4 @@ const editPost = async (event) => {
     }
 }
 
-document
-    .querySelector('')
-    .addEventListener('submit', editPost)
+document.querySelector('#editPost').addEventListener('submit', editPost)

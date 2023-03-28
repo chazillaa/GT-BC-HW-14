@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const { User, Post, Comment } = require('../../models')
 const withAuth = require('../../utils/auth')
-const sequelize = require('../../config/connection')
 
+// get all users with GET // postman working
 router.get('/', async (req, res) => {
     try{
         const getUser = await User.findAll({
@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
     }
 })
 
+// get user by ID with GET // postman working
 router.get('/:id', async (req, res) => {
     try{
         const getUserId = await User.findOne({
@@ -46,6 +47,8 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+
+// create new user with POST // working
 router.post('/', async (req, res) => {
     try{
         const postUser = await User.create({
@@ -64,6 +67,7 @@ router.post('/', async (req, res) => {
     }
 })
 
+// login with POST // working
 router.post('/login', async (req, res) => {
     try{
         const postLogin = await User.findOne({
@@ -72,12 +76,12 @@ router.post('/login', async (req, res) => {
             }
         })
         if (!postLogin) {
-            res.status(404).json({ message: 'Email was not found.'})
+            res.status(404).json({ message: 'Email was not found please try again.'})
             return
         }
         const passwordCheck = postLogin.checkPassword(req.body.password)
         if(!passwordCheck){
-            res.status(400).json({ message: 'Password was incorrect.'})
+            res.status(400).json({ message: 'Password was incorrect please try again.'})
             return
         }
         req.session.save(() => {
@@ -91,40 +95,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.put('/:id', withAuth, async (req, res) => {
-    try{
-        const putUser = await User.update({
-            where: {
-                id: req.params.id
-            }
-        })
-        if (!putUser) {
-            res.status(404).json({ message: 'Email was not found.'})
-            return
-        }
-        res.json(putUser)
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
-
-router.delete('/:id', withAuth, async (req, res) => {
-    try{
-        const deleteUser = await User.destroy({
-            where: {
-                id: req.params.id
-            }
-        })
-        if(!deleteUser){
-            res.status(404).json({ message: 'Email was not found.'})
-            return
-        }
-        res.json(deleteUser)
-    } catch (err) {
-        res.json(500).json(err)
-    }
-})
-
+// logout with POST // working
 router.post('/logout', withAuth, (req, res) => {
     if (req.session.logged_in) {
         req.session.destroy(() => {

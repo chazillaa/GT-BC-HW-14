@@ -13,12 +13,10 @@ const deletePost = async (event) => {
         }
       })
       if (response.ok) {
-        document.location.replace('/dashboard/');
+        document.location.replace('/dashboard');
       } else {
         alert(response.statusText);
       }
 }
 
-document
-    .querySelector('')
-    .addEventListener('click', deletePost)
+document.querySelector('#deletePost').addEventListener('click', deletePost)

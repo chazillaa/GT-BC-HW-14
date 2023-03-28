@@ -1,22 +1,13 @@
-<br>
-<div class="card-header">
-    <a href="/post"><button type="submit" class="makeButton">Make A New Post</button></a>
-    <br>
-       Your Posts:
+<div class="nes-container is-rounded m-4">
+  <h1 class="nes-text is-error">Your Posts:</h1>
+  <a href="/dashboard/create"><button type="submit" class="nes-btn is-success">Create New Post</button></a></br>
 
-  <div class="card-body">
-    
-  
-    {{#each posts as |post|}}
-      <div class="card">
-    <div class="card-body">
-        <h5 class="card-title"><a href="/dashboard/edit/{{id}}">{{post_title}}</a></h5>
-        <p class="card-text">{{post_content}}</p>
-    </div>
-</div>
-    {{/each}}
-  
+  <div>
+    {{#if posts.length}}
+      {{#each posts as |post|}}
+        {{> user-post post}}
+     {{/each}}
+    {{/if}}
+  </div>
   
 </div>
-
-

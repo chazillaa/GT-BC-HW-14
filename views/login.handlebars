@@ -1,27 +1,47 @@
-<div class="text-center p-5">
-    <h1>TECH BLOG</h1>
-</div>
- 
-<div class="m-1 d-flex justify-content-center align-items-center m-5">
-    <form class="form text-center m-2 nes-container is-rounded" style="background-color: lightgrey">
-    <div class="nes-text content m-2 p-2">
+ <div class="m-1 d-flex justify-content-center align-items-center m-5">
+{{!-- <form class="form text-center m-2 nes-container is-rounded" style="background-color: lightgrey">
+  <div class="nes-text content m-2 p-2">
 
+    
       <div class="nes-field m-2">
-        <label for="name_field" class="nes-text is-success">Email</label>
+        <label for="name_field" class="nes-text is-primary">Email</label>
         <input type="text" id="login-email" class="nes-input" style="width: 400px;">
       </div>
-
+    
+    
+   
       <div class="nes-field m-2">
-        <label for="name_field" class="nes-text is-success">Password</label>
+        <label for="name_field" class="nes-text is-primary">Password</label>
         <input type="password" id="login-password" class="nes-input" style="width: 400px;">
       </div>
     
-   <div class="m-5">
-     <button id="submit" type="submit" class="login-form">login</button>
+   
+    <a class="m-3">
+      <button type="submit" class="nes-btn is-primary" id="login">Submit</button>
+    </a>
+
     
-   </div>
-    <div class="m-1">
-      <a type="button" class="signup-form" href="/signup">Sign Up</a>
-    </div>
+    <div class="login-form m-1">
+      <a type="button" class="nes-btn is-primary" href="/signup">Sign Up</a>
+    </div> --}}
+ 
+
+
+      <div class="form text-center m-2 nes-container is-rounded">
+        <h5 class="nes-text is-primary">Log in</h5>
+        <form class="card-body">
+          <div class="m-3">
+            <label class="form-label">Email address: </label>
+            <input type="email" class="form text-center m-2 nes-container is-rounded" id="login-email">
+          </div>
+          <div class="m-3">
+            <label class="form-label">Password:</label>
+            <input type="password" class="form text-center m-2 nes-container is-rounded" id="login-password">
+          </div>
+          <button type="submit" class="nes-btn is-success" id="login">Login</button> 
+          <a type="button" class="nes-btn is-primary" href="/signup">Sign Up</a>
+        </form>
+      </div>
 
 <script src="/js/login.js"></script>
+

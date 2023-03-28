@@ -1,8 +1,8 @@
 const addPost = async (event) => {
     event.preventDefault()
 
-    const post_name = document.querySelector().value.trim()
-    const post_data = document.querySelector().value.trim()
+    const post_name = document.querySelector('#postTitle').value.trim()
+    const post_data = document.querySelector('#newPost').value.trim()
 
     const response = await fetch('/api/posts', {
         method: 'POST',
@@ -21,6 +21,4 @@ const addPost = async (event) => {
     }
 }
 
-document
-    .querySelector('makeButton')
-    .addEventListener('submit', addPost)
+document.querySelector('#postSubmit').addEventListener('click', addPost)

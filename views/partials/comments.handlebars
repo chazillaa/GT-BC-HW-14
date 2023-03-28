@@ -1,0 +1,13 @@
+ 
+   {{#each this}}
+    <div class="nes-container is-rounded m-4">  
+      <h1 class="nes-text is-primary">Comments:</h1>
+        <div class="nes-container is-rounded">
+        <p class="card-text">{{comment_data}}</p></br>
+        <h6 class="card-footer nes-text is-error">Posted by:</h6>
+        <h6>{{user.name}} on {{format_date created_at}}</h6>
+        </div>
+    
+    </div>
+    {{/each}}
+

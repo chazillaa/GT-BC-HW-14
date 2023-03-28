@@ -13,13 +13,10 @@ Comment.init(
         },
         comment_data: {
           type: DataTypes.STRING,
-          validate: {
-            len: [3],
-          },
+          allowNull: false
         },
         user_id: {
           type: DataTypes.INTEGER,
-          allowNull: false,
           references: {
             model: 'user',
             key: 'id',
@@ -27,7 +24,6 @@ Comment.init(
         },
         post_id: {
           type: DataTypes.INTEGER,
-          allowNull: false,
           references: {
             model: 'post',
             key: 'id',
@@ -38,7 +34,7 @@ Comment.init(
         sequelize,
         freezeTableName: true,
         underscored: true,
-        modelName: 'comment',
+        modelName: 'comment'
       }
 )
 

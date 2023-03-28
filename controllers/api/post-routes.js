@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const withAuth = require('../../utils/auth')
-
 const { User, Post, Comment } = require('../../models/')
 
+// get all posts with GET //
 router.get('/', async (req, res) => {
     try{
         const getPost = await Post.findAll({
@@ -29,9 +29,10 @@ router.get('/', async (req, res) => {
     }
 })
 
+// get post by id with GET // postman working
 router.get('/:id', async (req, res) => {
     try{
-        const getPost = await Post.findOne({
+        const getPostId = await Post.findOne({
             where: {
                 id: req.params.id
             },
@@ -52,15 +53,16 @@ router.get('/:id', async (req, res) => {
                 }
             ]
         })
-        if(!getPost){
+        if(!getPostId){
             res.status(500).json({ message: 'No post associated with this ID.'})
         }
-        res.json(getPost)
+        res.json(getPostId)
     } catch (err) {
         res.status(500).json(err)
     }
 })
 
+// create post with POST // working
 router.post('/', withAuth, async (req, res) => {
     try{
         const postPost = await Post.create({
@@ -74,9 +76,11 @@ router.post('/', withAuth, async (req, res) => {
     }
 })
 
+// update post with PUT // working
 router.put('/:id', withAuth, async (req, res) => {
     try{
-        const putPost = await Post.update({
+        const putPost = await Post.update(
+            req.body, {
             where: {
                 id: req.params.id
             }
@@ -90,12 +94,12 @@ router.put('/:id', withAuth, async (req, res) => {
     }
 })
 
+// delete post with DELETE // working
 router.delete('/:id', withAuth, async (req, res) => {
     try{
         const deletePost = await Post.destroy({
             where: {
-                id: req.params.id,
-                user_id: req.session.user_id
+                id: req.params.id
             }
         })
         if(!deletePost){
@@ -108,3 +112,4 @@ router.delete('/:id', withAuth, async (req, res) => {
 })
 
 module.exports = router
+

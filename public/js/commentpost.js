@@ -1,7 +1,7 @@
 const commentPost = async (event) => {
     event.preventDefault()
 
-    const comment_data = document.querySelector().value.trim()
+    const comment_data = document.querySelector('#newComment').value
     const post_id = window.location.toString().split('/')[window.location.toString().split('/').length - 1]
 
     if (comment_data) {
@@ -23,6 +23,4 @@ const commentPost = async (event) => {
     }
 }
 
-document
-    .querySelector('')
-    .addEventListener('submit', commentPost);
+document.querySelector('#addComment').addEventListener('click', commentPost);
